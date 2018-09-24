@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>todo</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
+    <!-- 可选的 Bootstrap 主题文件（一般不用引入） -->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+      crossorigin="anonymous">
+    <!-- ijquery -->
+    <script src="http://apps.bdimg.com/libs/jquery/2.0.0/jquery.min.js"></script>
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+      crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" >
+      添加
+    </button>
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+      登录
+    </button>
+
+    
+    <div class="row">
+      <% list.forEach(function(item, index){ %>
+      <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+          <img src="<%= item.picUrl%>" alt="###">
+          <div class="caption">
+            <h3>
+              <%= item.title%>
+            </h3>
+            <p>
+              <%= item.article%>
+            </p>
+            <p>
+              <a href="/del?id=<%= index%>" class="btn btn-default" role="button">删除</a>
+              <a href="javascript:;" class="btn btn-primary" role="button" onclick="edit(<%=index%>)">编辑</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+
+
+    <!--添加表单 -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel">添加内容</h4>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="/add">
+              <div class="form-group">
+                <label for="recipient-name" class="control-label">标题:</label>
+                <input type="text" name="title" class="form-control">
+              </div>
+              <div class="form-group">
+                <label for="message-text" class="control-label">图片地址:</label>
+                <textarea class="form-control" name="picUrl"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="message-text" class="control-label">文章:</label>
+                <textarea class="form-control" name="article"></textarea>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="buttom" class="btn btn-primary">确认</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!--编辑 -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="exampleModalLabel">添加内容</h4>
+          </div>
+          <div class="modal-body">
+            <form method="post" action="/update">
+              <div class="form-group hide">
+                <label for="recipient-name" class="control-label">标题:</label>
+                <input type="text" name="id" class="form-control" id="editId">
+              </div>
+              <div class="form-group">
+                <label for="recipient-name" class="control-label">标题:</label>
+                <input type="text" name="title" class="form-control" id="title">
+              </div>
+              <div class="form-group">
+                <label for="message-text" class="control-label">图片地址:</label>
+                <textarea class="form-control" name="picUrl" id="picUrl"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="message-text" class="control-label">文章:</label>
+                <textarea class="form-control" name="article" id="article"></textarea>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="buttom" class="btn btn-primary">确认</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <script>
+      $('#myModal').modal('#exampleModal')
+
+      function edit(id) {
+        $.get('/get/'+id, function(res) {
+          $('#editModal').modal('show');
+          $('#title').val(res.title);
+          $('#article').val(res.article);
+          $('#picUrl').val(res.picUrl)
+          $('#editId').val(id)
+        })
+      }
+    </script>
+  </body>
+</html>
