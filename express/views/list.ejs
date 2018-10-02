@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+
+<body>
+    <%- include public/header.ejs%>
+        <form action="/queryList" method="get">
+            <div>
+                名称：<input type="text">
+            </div>
+            <div>
+                密码<input type="password">
+            </div>
+            <div>
+                <input type="submit" value="登录">
+            </div>
+        </form>
+</body>
+
+</html>
