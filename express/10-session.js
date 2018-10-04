@@ -31,6 +31,7 @@ app.use(express.static('public'));
  * rolling //每次请求强制设置session，默认是false
  */
 
+ // 配置中间件
 app.use(session(
     { 
         secret: 'keyboard cat',
@@ -38,7 +39,7 @@ app.use(session(
         resave: false,
         saveUninitialized: true,
         cookie: {
-            maxAge: 60000, // 过期时间
+            maxAge: 1000*60*30, // 过期时间
         },
         rolling: true,
     }
